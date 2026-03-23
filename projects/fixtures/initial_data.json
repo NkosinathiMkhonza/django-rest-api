@@ -1,0 +1,41 @@
+[
+{
+  "model": "projects.project",
+  "pk": 1,
+  "fields": {
+    "title": "task-manager-cli",
+    "description": "A command-line task manager built with Python and SQLite, extended with a Flask REST API and terminal-style web interface.",
+    "tech_stack": "Python, SQLite, Flask",
+    "status": "completed",
+    "github_url": "https://github.com/NkosinathiMkhonza/task-manager-cli",
+    "created_at": "2026-03-18T07:58:29.843Z",
+    "updated_at": "2026-03-18T07:58:29.843Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 2,
+  "fields": {
+    "title": "django-rest-api",
+    "description": "A REST API built with Django REST Framework featuring CRUD operations, model serialization, and a browsable API interface.",
+    "tech_stack": "Python, Django, Django REST Framework",
+    "status": "active",
+    "github_url": "https://github.com/NkosinathiMkhonza/django-rest-api",
+    "created_at": "2026-03-18T07:58:30.202Z",
+    "updated_at": "2026-03-18T07:58:30.202Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 3,
+  "fields": {
+    "title": "portfolio",
+    "description": "A documentation-style developer portfolio with a Bootstrap grid layout, live GitHub commit feed, and terminal-style contact form.",
+    "tech_stack": "HTML, CSS, JavaScript, Bootstrap",
+    "status": "active",
+    "github_url": "https://github.com/NkosinathiMkhonza/Portfolio",
+    "created_at": "2026-03-18T07:58:30.401Z",
+    "updated_at": "2026-03-18T07:58:30.401Z"
+  }
+}
+]
