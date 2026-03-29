@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nkosinathi Mkhonza — Django REST API</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:      #0d1117;
+            --surface: #161b22;
+            --border:  #30363d;
+            --green:   #3fb950;
+            --blue:    #58a6ff;
+            --muted:   #8b949e;
+            --fg:      #c9d1d9;
+            --yellow:  #e3b341;
+            --red:     #f85149;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'JetBrains Mono', monospace;
+            min-height: 100vh;
+            padding: 40px 24px;
+        }
+
+        .container { max-width: 860px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 28px;
+            margin-bottom: 40px;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .api-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--fg);
+        }
+
+        .api-title span { color: var(--blue); }
+
+        .badge-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(63,185,80,0.1);
+            border: 1px solid rgba(63,185,80,0.3);
+            color: var(--green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+        }
+
+        .badge-live::before {
+            content: '';
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(63,185,80,0.4); }
+            50%       { box-shadow: 0 0 0 5px rgba(63,185,80,0); }
+        }
+
+        .api-desc {
+            color: var(--muted);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .author-line {
+            margin-top: 10px;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .author-line a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        .author-line a:hover { text-decoration: underline; }
+
+        /* Base URL */
+        .base-url {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.82rem;
+        }
+
+        .base-url-label {
+            color: var(--muted);
+            font-size: 0.72rem;
+            white-space: nowrap;
+        }
+
+        .base-url-value { color: var(--green); }
+
+        /* Section */
+        .section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Endpoint cards */
+        .endpoints { margin-bottom: 40px; }
+
+        .endpoint-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            transition: border-color 0.18s;
+        }
+
+        .endpoint-card:hover { border-color: var(--blue); }
+
+        .endpoint-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+        }
+
+        .method {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            min-width: 52px;
+            text-align: center;
+        }
+
+        .method-get    { background: rgba(63,185,80,0.15);  color: var(--green); }
+        .method-post   { background: rgba(88,166,255,0.15); color: var(--blue); }
+        .method-patch  { background: rgba(227,179,65,0.15); color: var(--yellow); }
+        .method-delete { background: rgba(248,81,73,0.15);  color: var(--red); }
+
+        .endpoint-path {
+            color: var(--fg);
+            font-size: 0.85rem;
+            flex: 1;
+        }
+
+        .endpoint-desc {
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .try-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+
+        .try-btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        /* Projects list */
+        .projects-section { margin-bottom: 40px; }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            transition: border-color 0.18s;
+        }
+
+        .project-card:hover { border-color: var(--blue); }
+
+        .project-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--fg);
+            margin-bottom: 4px;
+        }
+
+        .project-desc {
+            font-size: 0.78rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .project-tech {
+            font-size: 0.7rem;
+            color: var(--blue);
+        }
+
+        .status-badge {
+            font-size: 0.68rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .status-active    { background: rgba(63,185,80,0.1);  color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+        .status-completed { background: rgba(88,166,255,0.1); color: var(--blue);  border: 1px solid rgba(88,166,255,0.3); }
+
+        .loading { color: var(--muted); font-size: 0.82rem; padding: 16px 0; }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer a { color: var(--blue); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .endpoint-desc { display: none; }
+            .api-title { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-top">
+            <div class="api-title">
+                <span>django</span>-rest-api
+            </div>
+            <span class="badge-live">live · v1</span>
+        </div>
+        <p class="api-desc">
+            A REST API built with Django REST Framework featuring full CRUD operations,
+            model serialization with validation, and a PostgreSQL database.
+        </p>
+        <p class="author-line">
+            Built by <a href="https://nkosinathimkhonza.github.io/Portfolio" target="_blank">Nkosinathi Mkhonza</a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/NkosinathiMkhonza/django-rest-api" target="_blank">View on GitHub →</a>
+        </p>
+    </div>
+
+    <!-- Base URL -->
+    <div class="base-url">
+        <span class="base-url-label">BASE URL</span>
+        <span class="base-url-value">https://django-rest-api-y3z8.onrender.com</span>
+    </div>
+
+    <!-- Endpoints -->
+    <div class="endpoints">
+        <div class="section-title">// endpoints</div>
+
+        <div class="endpoint-card">
+            <div class="endpoint-row">
+                <span class="method method-get">GET</span>
+                <span class="endpoint-path">/api/v1/projects/</span>
+                <span class="endpoint-desc">List all projects</span>
+                <a href="/api/v1/projects/" class="try-btn" target="_blank">try →</a>
+            </div>
+        </div>
+
+        <div class="endpoint-card">
+            <div class="endpoint-row">
+                <span class="method method-post">POST</span>
+                <span class="endpoint-path">/api/v1/projects/</span>
+                <span class="endpoint-desc">Create a new project</span>
+                <a href="/api/v1/projects/" class="try-btn" target="_blank">try →</a>
+            </div>
+        </div>
+
+        <div class="endpoint-card">
+            <div class="endpoint-row">
+                <span class="method method-get">GET</span>
+                <span class="endpoint-path">/api/v1/projects/&lt;id&gt;/</span>
+                <span class="endpoint-desc">Retrieve a project</span>
+            </div>
+        </div>
+
+        <div class="endpoint-card">
+            <div class="endpoint-row">
+                <span class="method method-patch">PATCH</span>
+                <span class="endpoint-path">/api/v1/projects/&lt;id&gt;/</span>
+                <span class="endpoint-desc">Update a project</span>
+            </div>
+        </div>
+
+        <div class="endpoint-card">
+            <div class="endpoint-row">
+                <span class="method method-delete">DELETE</span>
+                <span class="endpoint-path">/api/v1/projects/&lt;id&gt;/</span>
+                <span class="endpoint-desc">Delete a project</span>
+            </div>
+        </div>
+
+        <div class="endpoint-card">
+            <div class="endpoint-row">
+                <span class="method method-get">GET</span>
+                <span class="endpoint-path">/api/v1/projects/stats/</span>
+                <span class="endpoint-desc">Get project statistics</span>
+                <a href="/api/v1/projects/stats/" class="try-btn" target="_blank">try →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Projects -->
+    <div class="projects-section">
+        <div class="section-title">// live data — GET /api/v1/projects/</div>
+        <div id="projects-list">
+            <p class="loading">fetching projects...</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>Django 5.2 · DRF 3.16 · PostgreSQL · Hosted on Render</span>
+        <span>
+            <a href="https://nkosinathimkhonza.github.io/Portfolio" target="_blank">portfolio</a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/NkosinathiMkhonza" target="_blank">github</a>
+        </span>
+    </div>
+
+</div>
+
+<script>
+    // Fetch and render live projects
+    fetch('/api/v1/projects/')
+        .then(r => r.json())
+        .then(projects => {
+            const container = document.getElementById('projects-list');
+            if (!projects.length) {
+                container.innerHTML = '<p class="loading">No projects found.</p>';
+                return;
+            }
+            container.innerHTML = projects.map(p => `
+                <div class="project-card">
+                    <div>
+                        <div class="project-title">${p.title}</div>
+                        <div class="project-desc">${p.description}</div>
+                        <div class="project-tech">${p.tech_stack}</div>
+                    </div>
+                    <span class="status-badge status-${p.status}">${p.status}</span>
+                </div>
+            `).join('');
+        })
+        .catch(() => {
+            document.getElementById('projects-list').innerHTML =
+                '<p class="loading">Could not load projects.</p>';
+        });
+</script>
+
+</body>
+</html>

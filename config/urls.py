@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.http import JsonResponse
-
+from django.views.generic import TemplateView
 
 def api_root(request):
     return JsonResponse({
@@ -18,7 +18,7 @@ def api_root(request):
 
 
 urlpatterns = [
-    path('',                 api_root,              name='api-root'),
+    path('',                 TemplateView.as_view(template_name='index.html'), name='home'),
     path('admin/',           admin.site.urls),
     path('api/v1/projects/', include('projects.urls')),
 ]
