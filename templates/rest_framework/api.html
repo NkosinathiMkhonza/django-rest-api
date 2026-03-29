@@ -1,0 +1,139 @@
+{% extends "rest_framework/base.html" %}
+
+{% block style %}
+{{ block.super }}
+<style>
+    body {
+        background: #0d1117 !important;
+        color: #c9d1d9 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Import font */
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    /* Navbar */
+    .navbar {
+        background: #161b22 !important;
+        border-bottom: 1px solid #30363d !important;
+    }
+
+    .navbar-brand, .navbar a {
+        color: #58a6ff !important;
+        font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    .navbar-brand::before { content: '</> '; color: #3fb950; }
+
+    /* Main content */
+    .content-main {
+        background: #0d1117 !important;
+    }
+
+    /* Page header */
+    .page-header {
+        background: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px !important;
+        padding: 16px 20px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .page-header h1 {
+        color: #c9d1d9 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 1.2rem !important;
+    }
+
+    /* Response area */
+    .request-info, .response-info {
+        background: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px !important;
+    }
+
+    pre {
+        background: #0d1117 !important;
+        color: #3fb950 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Buttons */
+    .btn-primary, .btn-default {
+        background: transparent !important;
+        border: 1px solid #58a6ff !important;
+        color: #58a6ff !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        border-radius: 5px !important;
+    }
+
+    .btn-primary:hover, .btn-default:hover {
+        background: #58a6ff !important;
+        color: #0d1117 !important;
+    }
+
+    .btn-warning {
+        background: transparent !important;
+        border: 1px solid #e3b341 !important;
+        color: #e3b341 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        border-radius: 5px !important;
+    }
+
+    .btn-danger {
+        background: transparent !important;
+        border: 1px solid #f85149 !important;
+        color: #f85149 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        border-radius: 5px !important;
+    }
+
+    /* Tables */
+    table { background: #161b22 !important; }
+    th { background: #0d1117 !important; color: #8b949e !important; }
+    td { color: #c9d1d9 !important; border-color: #30363d !important; }
+    tr:hover td { background: #1c2128 !important; }
+
+    /* Forms */
+    input, textarea, select {
+        background: #0d1117 !important;
+        border: 1px solid #30363d !important;
+        color: #c9d1d9 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        border-radius: 5px !important;
+    }
+
+    input:focus, textarea:focus {
+        border-color: #58a6ff !important;
+        box-shadow: 0 0 0 3px rgba(88,166,255,0.1) !important;
+        outline: none !important;
+    }
+
+    /* Well/panels */
+    .well {
+        background: #161b22 !important;
+        border: 1px solid #30363d !important;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumb {
+        background: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 5px !important;
+    }
+
+    .breadcrumb a { color: #58a6ff !important; }
+
+    /* HTTP method labels */
+    .label-success { background: rgba(63,185,80,0.2) !important; color: #3fb950 !important; }
+    .label-warning { background: rgba(227,179,65,0.2) !important; color: #e3b341 !important; }
+    .label-danger  { background: rgba(248,81,73,0.2) !important;  color: #f85149 !important; }
+    .label-info    { background: rgba(88,166,255,0.2) !important; color: #58a6ff !important; }
+
+    /* Back to home link */
+    .navbar-right a::after { content: ' ← home'; font-size: 0.75rem; }
+</style>
+{% endblock %}
